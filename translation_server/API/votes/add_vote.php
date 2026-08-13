@@ -14,7 +14,7 @@
     }
 
     if ($player_id == -1 OR $round_id == -1) {
-        echo json_encode(array("success"=> false, "message"=> "no user or round found!"));
+        echo json_encode(["success" => false, "message" => "no user or round found!"]);
         return;
     }
 
@@ -23,6 +23,6 @@
     $query->bind_param("ii", $player_id, $round_id);
     $query->execute();
 
-    echo json_encode(array("success"=> true,"message"=> "voted successfully"));
+    echo json_encode(["success" => true,"message" => "voted successfully"]);
 
 ?>
