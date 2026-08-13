@@ -10,8 +10,8 @@
         return;
     }
 
-    $first_name = ["Galaxy", "Planet", "Space", "Star"];
-    $last_name = ["Voyager", "Ranger", "Explorer", "Pirate"];
+    $first_name = ["Curious", "Clever", "Quiet", "Wandering"];
+    $last_name = ["Librarian", "Translator", "Interpreter", "Lexicographer"];
 
     $f_name = $first_name[rand(0,3)];
     $l_name = $last_name[rand(0,3)];
