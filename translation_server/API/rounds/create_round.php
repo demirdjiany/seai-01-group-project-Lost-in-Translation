@@ -2,9 +2,6 @@
 
     include(__DIR__ . "/../../database/connection.php");
 
-    // Student B: generate and store a complete round here.
-    // This file will call Student A's translation-chain function.
-
     $sql = "SELECT * FROM sentences ORDER BY RAND() LIMIT 1";
     $query = $mysql->prepare($sql);
     $query->execute();
