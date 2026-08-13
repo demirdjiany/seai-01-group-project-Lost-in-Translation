@@ -2,6 +2,7 @@
 
     include(__DIR__ . "/../../database/connection.php");
     include(__DIR__ . "/../../functions/similarity.php");
+    include(__DIR__ . "/../../translation/translation_service.php");
 
     $sql = "SELECT * FROM sentences ORDER BY RAND() LIMIT 1";
     $query = $mysql->prepare($sql);
@@ -18,24 +19,32 @@
     $sentence_id = $sentence["id"];
     $sentence_content = $sentence["content"];
 
-    $translation_result = [
-        "success" => true,
-        "final_translation" => "Temporary mangled English sentence",
-        "steps" => [
-            ["from" => "en", "to" => "ja", "text" => "Temporary Japanese result"],
-            ["from" => "ja", "to" => "ar", "text" => "Temporary Arabic result"],
-            ["from" => "ar", "to" => "fi", "text" => "Temporary Finnish result"],
-            ["from" => "fi", "to" => "sw", "text" => "Temporary Swahili result"],
-            ["from" => "sw", "to" => "hu", "text" => "Temporary Hungarian result"],
-            ["from" => "hu", "to" => "ko", "text" => "Temporary Korean result"],
-            ["from" => "ko", "to" => "en", "text" => "Temporary final English result"]
-        ]
-    ];
+    $chain_result = run_translation_chain($sentence_content);
 
-    if (!$translation_result["success"]){
+    if (!$chain_result["ok"]){
         echo json_encode(["success"=>false,"message"=> "translation failed"]);
         return;
     }
+
+    // run_translation_chain() returns one entry per language, starting with the
+    // seed (steps[0]). round_steps needs one entry per hop (from -> to), so pair
+    // each step up with the one before it.
+    $chain_steps = $chain_result["steps"];
+    $steps = [];
+
+    for ($i = 1; $i < count($chain_steps); $i++) {
+        $steps[] = [
+            "from" => $chain_steps[$i - 1]["lang"],
+            "to" => $chain_steps[$i]["lang"],
+            "text" => $chain_steps[$i]["text"],
+        ];
+    }
+
+    $translation_result = [
+        "success" => true,
+        "final_translation" => end($chain_steps)["text"],
+        "steps" => $steps,
+    ];
 
     $final_translation = $translation_result["final_translation"];
     $status = "open";
