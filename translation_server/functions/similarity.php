@@ -1,5 +1,6 @@
 <?php
 
+    // normalizes both texts, removing all white spaces, extra spaces, punctuations and turning everything lowercase
     function normalize_text($text){
         $text = strtolower($text);
         $text = preg_replace("/[^a-z0-9\s]/", "", $text);
@@ -9,6 +10,7 @@
         return $text;
     }
 
+    // 
     function calculate_similarity($translated_text, $user_text){
         $translated_text = normalize_text($translated_text);
         $user_text = normalize_text($user_text);

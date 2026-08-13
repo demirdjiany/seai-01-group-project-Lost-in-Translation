@@ -1,6 +1,7 @@
 <?php
 
     include(__DIR__ . "/../../database/connection.php");
+    include(__DIR__ . "/../../functions/similarity.php");
 
     $sql = "SELECT * FROM sentences ORDER BY RAND() LIMIT 1";
     $query = $mysql->prepare($sql);
@@ -38,7 +39,7 @@
 
     $final_translation = $translation_result["final_translation"];
     $status = "open";
-    $score = 0;
+    $score = calculate_mangle_score($sentence_content, $final_translation);
 
     $sql = "INSERT INTO rounds (sentence_id, final_translation, status, ends_at, score) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 60 SECOND), ?)";
     $query = $mysql->prepare($sql);
