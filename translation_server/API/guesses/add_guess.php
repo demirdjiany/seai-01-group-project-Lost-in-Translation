@@ -1,15 +1,12 @@
 <?php
 
+    session_start();
     include(__DIR__ . "/../../database/connection.php");
     include(__DIR__ . "/../../functions/similarity.php");
 
-    $player_id = -1;
+    $player_id = isset($_SESSION["player_id"]) ? $_SESSION["player_id"] : -1;
     $round_id = -1;
     $guess = "";
-
-    if (isset($_POST["player_id"])) {
-        $player_id = $_POST["player_id"];
-    }
 
     if (isset($_POST["round_id"])) {
         $round_id = $_POST["round_id"];
@@ -83,6 +80,13 @@
     if (!$query->execute()) {
         echo json_encode(["success" => false, "message" => "guess could not be saved"]);
         return;
+    }
+
+    if ($guess_result == "correct") {
+        $sql = "UPDATE rounds SET status = 'closed' WHERE id = ?";
+        $query = $mysql->prepare($sql);
+        $query->bind_param("i", $round_id);
+        $query->execute();
     }
 
     echo json_encode([

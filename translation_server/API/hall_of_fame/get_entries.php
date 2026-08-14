@@ -21,7 +21,18 @@
                 FROM hall_of_fame_votes
                 WHERE hall_of_fame_votes.round_id = rounds.id
             ) AS votes
-        FROM rounds JOIN sentences ON sentences.id = rounds.sentence_id WHERE rounds.status = 'closed' ORDER BY $order_by";
+        FROM rounds
+        JOIN sentences ON sentences.id = rounds.sentence_id
+        WHERE rounds.status = 'closed'
+        AND rounds.id = (
+            SELECT candidate_rounds.id
+            FROM rounds AS candidate_rounds
+            WHERE candidate_rounds.sentence_id = rounds.sentence_id
+            AND candidate_rounds.status = 'closed'
+            ORDER BY candidate_rounds.score DESC, candidate_rounds.id ASC
+            LIMIT 1
+        )
+        ORDER BY $order_by";
     
     $query = $mysql->prepare($sql);
     $query->execute();

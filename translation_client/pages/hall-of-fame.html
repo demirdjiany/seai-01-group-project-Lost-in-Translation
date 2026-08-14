@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hall of Fame — Lost in Translation</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌀</text></svg>">
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">🌀</span>
+    <span class="brand-name">Lost in Translation</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="tabs" aria-label="Sections">
+      <a class="tab" href="play.html">Play</a>
+      <a class="tab is-active" href="hall-of-fame.html">Hall of Fame</a>
+    </nav>
+    <a class="logout-link" href="../index.html">Log out</a>
+  </div>
+</header>
+
+<main class="app">
+
+  <div class="fame-header">
+    <h2>Hall of Fame</h2>
+    <div class="sort-control">
+      <label for="fame-sort">Sort by</label>
+      <select id="fame-sort">
+        <option value="mangle">Mangle score</option>
+        <option value="votes">Votes</option>
+      </select>
+    </div>
+  </div>
+  <ul id="fame-list" class="fame-list"></ul>
+  <p id="fame-empty" class="muted" hidden>Nothing here yet — mangle a sentence to claim a spot.</p>
+
+</main>
+
+<template id="tmpl-fame-card">
+  <li class="fame-card">
+    <div class="fame-card-main">
+      <p class="fame-seed"></p>
+      <p class="fame-arrow">→</p>
+      <p class="fame-final"></p>
+    </div>
+    <div class="fame-card-side">
+      <div class="fame-mangle">
+        <span class="fame-mangle-score"></span>
+        <span class="fame-mangle-caption">mangle</span>
+      </div>
+      <button class="btn btn-ghost btn-small fame-upvote" type="button">▲ <span class="fame-votes"></span></button>
+    </div>
+  </li>
+</template>
+
+<script src="../scripts/axios.min.js"></script>
+<script type="module" src="../scripts/fame.js"></script>
+</body>
+</html>

@@ -1,13 +1,10 @@
 <?php
 
+    session_start();
     include(__DIR__ . "/../../database/connection.php");
 
-    $player_id = -1;
+    $player_id = isset($_SESSION["player_id"]) ? $_SESSION["player_id"] : -1;
     $round_id = -1;
-
-    if (isset($_POST["player_id"])) {
-        $player_id = $_POST["player_id"];
-    }
 
     if (isset($_POST["round_id"])) {
         $round_id = $_POST["round_id"];

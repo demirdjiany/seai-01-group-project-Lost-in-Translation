@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost in Translation</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌀</text></svg>">
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">🌀</span>
+    <span class="brand-name">Lost in Translation</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="tabs" aria-label="Sections">
+      <a class="tab is-active" href="play.html">Play</a>
+      <a class="tab" href="hall-of-fame.html">Hall of Fame</a>
+    </nav>
+    <a class="logout-link" href="../index.html">Log out</a>
+  </div>
+</header>
+
+<main class="app">
+
+  <div id="status-banner" class="status-banner" hidden></div>
+
+  <div id="state-idle" class="panel state-panel" hidden>
+    <p class="lede">No round running.</p>
+    <button id="btn-new-round" class="btn btn-primary">Start a round</button>
+  </div>
+
+  <div id="state-generating" class="panel state-panel" hidden>
+    <p class="lede">Loading...</p>
+    <div class="spinner" aria-hidden="true"></div>
+  </div>
+
+  <div id="state-open" class="panel game-panel" hidden>
+    <div class="round-meta">
+      <div class="timer-wrap">
+        <svg class="timer-ring" viewBox="0 0 44 44" aria-hidden="true">
+          <circle class="timer-ring-track" cx="22" cy="22" r="19"></circle>
+          <circle class="timer-ring-fill" id="timer-ring-fill" cx="22" cy="22" r="19"></circle>
+        </svg>
+        <span id="timer-value" class="timer-value">--</span>
+      </div>
+      <div class="chain-strip" id="chain-strip" aria-label="Language chain"></div>
+    </div>
+
+    <div class="puzzle-card">
+      <p class="puzzle-label">What did this sentence used to say?</p>
+      <p id="puzzle-text" class="puzzle-text"></p>
+    </div>
+
+    <form id="guess-form" class="guess-form" autocomplete="off">
+      <input
+        id="guess-input"
+        class="input"
+        type="text"
+        name="guess"
+        maxlength="120"
+        placeholder="Type your guess…"
+        aria-label="Your guess"
+        required>
+      <button type="submit" class="btn btn-primary" id="guess-submit">Guess</button>
+    </form>
+    <p id="guess-error" class="field-error" hidden></p>
+
+    <div id="guess-feedback" class="guess-feedback" hidden role="status"></div>
+
+    <div class="hint-row">
+      <button id="btn-hint" class="btn btn-ghost">Use a hint (−30 pts)</button>
+      <span id="hint-count" class="muted"></span>
+    </div>
+    <ul id="hint-list" class="hint-list"></ul>
+  </div>
+
+  <div id="state-revealed" class="panel reveal-panel" hidden>
+    <div class="reveal-header">
+      <h2>Here's where it fell apart</h2>
+      <button id="btn-skip-reveal" class="btn btn-ghost btn-small">Skip animation</button>
+    </div>
+
+    <ol id="reveal-track" class="reveal-track" aria-label="Translation chain reveal"></ol>
+
+    <div id="reveal-summary" class="reveal-summary" hidden>
+      <div class="summary-row">
+        <span class="summary-label">Original</span>
+        <span id="summary-seed" class="summary-text"></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Came back as</span>
+        <span id="summary-final" class="summary-text"></span>
+      </div>
+      <div class="score-badges">
+        <div class="mangle-badge">
+          <span class="mangle-score" id="summary-mangle">--</span>
+          <span class="mangle-caption">Mangle Score</span>
+        </div>
+        <div class="mangle-badge">
+          <span class="player-score" id="summary-player-score">--</span>
+          <span class="mangle-caption">Player Score</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="btn-play-again" class="btn btn-primary" hidden>Play again</button>
+  </div>
+
+</main>
+
+<template id="tmpl-hint-item">
+  <li class="hint-item">
+    <span class="hint-flag"></span>
+    <span class="hint-lang"></span>
+    <span class="hint-text"></span>
+  </li>
+</template>
+
+<template id="tmpl-reveal-step">
+  <li class="reveal-step">
+    <div class="reveal-step-flag"></div>
+    <div class="reveal-step-body">
+      <div class="reveal-step-head">
+        <span class="reveal-step-lang"></span>
+        <span class="reveal-step-delta"></span>
+      </div>
+      <p class="reveal-step-text"></p>
+    </div>
+  </li>
+</template>
+
+<script src="../scripts/axios.min.js"></script>
+<script type="module" src="../scripts/play.js"></script>
+</body>
+</html>
