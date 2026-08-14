@@ -1,9 +1,5 @@
 <?php
 
-// Manual sanity check for the translation service.
-// Run from a terminal: php test_chain.php
-// Run it twice in a row - the second run should show every hop coming from cache.
-
 require_once __DIR__ . '/translation_service.php';
 
 $seed = "It's raining cats and dogs";

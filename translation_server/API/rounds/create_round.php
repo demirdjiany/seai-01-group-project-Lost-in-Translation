@@ -26,9 +26,6 @@
         return;
     }
 
-    // run_translation_chain() returns one entry per language, starting with the
-    // seed (steps[0]). round_steps needs one entry per hop (from -> to), so pair
-    // each step up with the one before it.
     $chain_steps = $chain_result["steps"];
     $steps = [];
 
